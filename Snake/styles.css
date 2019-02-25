@@ -1,0 +1,322 @@
+@font-face {
+	font-family: digital;
+	src: url(digital-7.ttf);
+}
+@font-face {
+	font-family:dot;
+	src:url(DOTMATRI.TTF);
+}
+p{
+	margin:0px;
+}
+/*CSS states during the game/ default css*/
+body{
+	margin:0px;
+	margin-top: 10px;
+	background-color:black;
+	perspective:200px;
+	overflow:hidden;
+}
+#canvas {
+	position:relative;
+	margin:auto;
+	background-color: black;
+	height: 630px;
+	width: 1230px;
+	border: 5px dashed #32daff;
+	box-shadow: 0px 0px 30px 2px #00d7ef inset;
+	animation:canvasAnimationIn .4s 1;	
+}
+.body, #head{
+	position:absolute;
+	width:20px;
+	height:20px;
+	background-color: black;
+	border-radius: 5px;
+	box-shadow: 0px 0px 7px 4px #00d7ef;
+}
+#unattached {
+	background-color:#32daff;
+	animation: popIn .4s 1;				
+}
+#head {	
+	border-radius: 20px;
+	z-index: 1;
+	left:430px;
+	top:305px;
+}
+#scorecard {	
+	position:fixed;
+	color:#32daff;
+	font-family:digital;
+	font-size:120px;
+	top: 420px;
+	background-color: black;
+	left:50px;
+	padding:20px;
+	opacity:.6;
+	transform:rotate3d(10,20,-20,10deg);
+	width:400px;
+	animation:scoreAnimationIn 1.1s 1;
+}
+#scorecard div, #mainmenu > div, #optionsLink, #controlsLink{
+	color:#32daff;
+	top:0px;
+	padding-top:10px;
+	padding-bottom:10px;
+	position:absolute;
+	width:400px;
+	font-family:dot;
+	font-size:50px;
+	display:none;
+	text-align:center;
+	background-color:#0a0a0a;
+	opacity:.9;
+	cursor:pointer;
+}
+#mainmenu {
+	display:none;
+}
+#pause {
+	opacity:.7;
+	z-index:5;
+	position:relative;
+	display:none;
+	top:200px;
+	margin:auto;
+}
+#pause.paused {
+	display:block;
+	animation:pauseIn .3s 1;
+	cursor:pointer;
+}
+#pause.unpaused {
+	animation:pauseOut .5s 1;
+	display:block;
+	opacity:0;
+	transform:scale(0,0);
+}
+/*styles for different pickups*/
+#unattached.slowdown {
+	background-color:purple;
+	box-shadow: 0px 0px 10px 4px #50024a;
+}
+#unattached.speedup {
+	background-color:red;
+	box-shadow: 0px 0px 10px 4px #630202;
+}
+#unattached.lengthen {
+	background-color:green;
+	box-shadow: 0px 0px 10px 4px #1fec18;
+	animation-name:strechIn .5s 1;
+}
+#unattached.shorten {
+	background-color:blue;
+	box-shadow: 0px 0px 10px 4px #0e1dd6;
+	animation-name: squishIn .5s 1;
+}
+#unattached.reverse {
+	background-color:black;
+	box-shadow: 0px 0px 10px 4px white;
+}
+/*CSS states showing the game over menu*/
+.dead #canvas {
+	animation:canvasAnimationOut .7s 1;
+	transform:rotate3d(-10,10,20,-10deg) scale(.7,.7);
+	border:5px solid #e71738;
+	box-shadow:0px 0px 50px 5px #b1122b inset;
+}
+.dead #scorecard {
+	transform:rotate3d(-10,10,20,-10deg);
+	animation: scoreAnimationOut .8s 1;
+	left:350px;
+	top:50px;
+	opacity:.8;
+	background-color: #0a0a0a;
+}
+.dead #scorecard div:hover, .mainmenu #mainmenu > div:hover, #controlsLink:hover, #optionsLink:hover{	
+	transform:scale(1.1,1.2);
+	text-shadow:0px 0px 10px #32daff;
+	box-shadow:0px 0px 20px 10px black;
+	z-index:2;
+}
+.dead #highScoreCard {
+	display:inline;
+	top:180px;
+	animation:highScoreCardIn .6s 1;
+}
+.dead #restartCard {
+	display:inline;
+	top:320px;
+	animation:restartCardIn .6s 1;	
+}
+.dead #mainmenulink {
+	display:inline;
+	top:400px;
+	animation:mainmenulinkIn .6s 1;
+}
+.dead #head {
+	box-shadow:0px 0px 20px 10px #b1122b;
+}
+/*CSS states exiting game over menu*/
+.restart #scorecard{
+	animation: fade .2s 1;
+	opacity:0;
+}
+.restart #canvas{
+	animation:flipOut .2s 1;
+	opacity:0;
+}
+/*CSS styles in main menu*/
+.mainmenu #canvas{
+	animation:canvasMainmenuIn .8s 1;
+	transform:rotate3d(50,5,10,10deg) scale(.9,.9);
+}
+.mainmenu #scorecard{
+	display:none;
+}
+.mainmenu #mainmenu div{
+	margin:10px;
+	position:relative;
+	display:block;
+}
+.mainmenu #mainmenu {
+	transform:rotate3d(50,5,10,10deg);
+	position:absolute;
+	top:20px;
+	left:400px;
+	display:inline-block;
+	animation:mainmenuIn 1s 1;
+}
+.mainmenu #mainmenu #options,  .mainmenu #mainmenu #controls{
+	display:inline;
+	padding:0px;
+	margin:0px;
+}
+.mainmenu #options #optionsMenu, .mainmenu #controls #controlsMenu{
+	display:none;
+}
+/*showing the options menu*/
+#options.open, #controls.open {
+	font-size:60px;
+	animation:subMenuIn .7s 1;
+	top:-350px;
+	z-index:5;
+}
+#mainmenu #options.open:hover, #mainmenu #controls.open:hover{
+	text-shadow:none;
+}
+#options.open #optionsMenu, #controls.open #controlsMenu{
+	display:block;
+	position:absolute;
+	opacity:.95;
+	animation:subMenuFade .5s 1;
+	box-shadow:0px 0px 50px 20px black;
+	width:400px;
+	background-color:#0a0a0a;
+}
+#optionsMenu p:hover, #controlsBack:hover {
+	text-shadow:0px 0px 10px #32daff;
+	cursor:pointer;
+}
+#optionsMenu p{
+	margin:40px 0px 40px 0px;
+}
+#options.open #optionsLink, #controls.open #controlsLink {
+	box-shadow:0px 0px 20px 10px black;
+	z-index:5;
+}
+#options.closed #optionsLink, #controls.closed #controlsLink{
+	animation:subMenuIn .3s 1;
+	animation-direction:reverse;
+}
+.mainmenu #controls.open #controlsMenu {
+	left:-200px;
+	width:600px;
+	font-size:40px;
+	padding:20px 100px 20px 100px;
+}
+/*entering main menu animations*/
+@keyframes canvasMainmenuIn{
+	from{transform:rotate3d(-10,10,20,-10deg) scale(.7,.7);}
+	to{transform:rotate3d(50,5,10,10deg) scale(.9,.9);}
+}
+@keyframes mainmenuIn{
+	from{transform:rotate3d(0,0,0,0deg);top:700px;left:300px;}
+	to{transform:rotate3d(50,5,10,10deg);top:20px;left:400px;}
+}
+/*options menu animations*/
+@keyframes subMenuIn {
+	from{top:0px;transform:scale(1.1,1.2);}
+	to{top: -350px;transform:scale(1.2,1.3);}
+}
+@keyframes subMenuFade {
+	from{opacity:0;}
+	to{opacity:.95;}
+}
+/*game starting animations*/
+@keyframes scoreAnimationIn{
+	0%{transform:rotate3d(0,0,0,0deg); top:480px;left:20px;opacity:0;}
+	35%{transform:rotate3d(-5,-10,20,10deg); top 380px; left:90px;opacity:.2;}
+	100%{transform:rotate3d(10,20,-20,10deg);top:420px;left:50px;opacity:.6;}
+}
+@keyframes canvasAnimationIn{
+	0%{opacity:0;transform:rotate3d(-5,-20,20,-10deg) scale(.7,.7);}
+	100%{transform:rotate3d(0,0,0,0deg) scale(1,1);opacity:1;}
+}
+/*animations during the game*/
+@keyframes popIn{
+	from{transform:scale(0,0);}
+	to{transform:scale(1,1);}
+}
+@keyframes strechIn{
+	from{width:100px; height:0px;}
+	to{width:20px; width:20px;}
+}
+@keyframes squishIn{
+	from{width:0px; height:100px;}
+	to{width:20px; width:20px;}
+}
+@keyframes pauseOut{
+	from{opacity:.7;transform:scale(1,1);}
+	to{opacity:0;transform:scale(0,0);}
+}
+@keyframes pauseIn{
+	0%{transform:scale(0,0);opacity:0;}
+	60%{transform:scale(1.2,1.2);opacity:.5;}
+	100%{transform:scale(1,1);opacity:.7;}
+}
+/*entering game over menu animations*/
+@keyframes canvasAnimationOut{
+	0%{transform:rotate3d(0,0,0,0deg) scale(1,1);
+		box-shadow: 0px 0px 30px 2px #00d7ef inset;
+		border: 5px solid #32daff;}
+	100%{transform:rotate3d(-10,10,20,-10deg) scale(.7,.7);
+		box-shadow:0px 0px 50px 5px #b1122b inset;
+		border:5px solid #e71738;}
+}
+@keyframes scoreAnimationOut{
+	0%{transform:rotate3d(10,20,-20,10deg);left:50px;top:420px;background-color:black;}
+	100%{transform:rotate3d(-10,10,20,-10deg);left:350px;top:50px;background-color: #0a0a0a;};
+}
+@keyframes highScoreCardIn{
+	0%{opacity:0;top:0px;}
+	100%{opacity:.9;top:180px;}
+}
+@keyframes restartCardIn{
+	from{opacity:0;top:0px;}
+	to{opacity:.9;top:320px;}
+}
+@keyframes mainmenulinkIn{
+	from{opacity:0;top:0px;}
+	to{opacity:.9;top:400px;}
+}
+/*exiting game over menu*/
+@keyframes fade{
+	from{opacity:1;}
+	to{opacity:0;}
+}
+@keyframes flipOut{
+	0%{opacity:1;transform:rotate3d(-10,10,20,-10deg) scale(.7,.7);}
+	100%{opacity:0;transform:rotate3d(5,10,0,-10deg) scale(1,1);}
+}
